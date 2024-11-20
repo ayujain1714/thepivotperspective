@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Register {
+  id           Int      @id @default(autoincrement())
+  name         String?
+  enrollmentNo String   @unique
+  campus       Campus
+  course       Course
+  branch       Branch
+  semester     Semester
+  email        String
+  phoneNumber  String
+  createdAt    DateTime @default(now())
+}
+
+enum Campus {
+  LNCT
+  LNCTE
+  LNCTS
+  LNCTU
+}
+
+enum Course {
+  B_Tech
+  BCA
+  MBA
+  BBA
+}
+
+enum Branch {
+  IOT
+  CSE
+  AIDS
+  DS
+  AIML
+  ME
+}
+
+enum Semester {
+  First
+  Second
+  Third
+  Fourth
+  Fifth
+  Sixth
+  Seventh
+  Eighth
+}
