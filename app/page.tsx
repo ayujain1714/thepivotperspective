@@ -1,39 +1,38 @@
+import ThemeToggle from '@/components/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
-import { Armchair, CalendarDays, CalendarIcon } from 'lucide-react';
+import { Armchair } from 'lucide-react';
 import Link from 'next/link';
 
-export default function Component() {
+export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-black text-white">
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="h-full w-full object-cover opacity-50"
-        >
-          <source src="/placeholder.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div className="container relative z-10 mx-auto px-4 py-24 sm:py-32 lg:py-40">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="mb-6 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-            Experience Ideas Worth Spreading
+    <section className="flex h-dvh w-screen items-center justify-center bg-gradient-to-b from-foreground/40 to-background">
+      <div className="max-w-2xl text-center">
+        <p className="text-xl tracking-wider">The Pivot Perspective</p>
+        <div className="mt-5 max-w-2xl">
+          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-wide lg:text-7xl">
+            Experience Ideas
+            <br /> Worth Spreading
           </h1>
-          <p className="mb-10 text-xl sm:text-2xl">
-            Book your tickets now for the Pivot Point event and be inspired by
-            world-changing thinkers.
+        </div>
+        <div className="mt-5 max-w-3xl">
+          <p className="font-mont text-lg text-muted-foreground">
+            Join us for an empowering event that bridges the gap between
+            aspiring students and accomplished achievers. Hear inspiring
+            stories, gain valuable insights, and fuel your journey to success.{' '}
           </p>
-          <Button size="lg">
-            <Armchair className="mr-2 size-6" strokeWidth={2.5} />
-            <Link href="/form" className="text-lg">
-              Book Your Ticket
-            </Link>
+        </div>
+        <div className="mt-8 grid gap-3 px-24 sm:grid-cols-2">
+          <Link href="/form">
+            <Button size="lg" variant="ringHover" className="text-forground">
+              <Armchair size={30} strokeWidth={2} className="mr-2" />
+              Count me In
+            </Button>
+          </Link>
+          <Button size="lg" variant="outline">
+            See our Guests
           </Button>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
     </section>
   );
 }

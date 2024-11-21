@@ -59,6 +59,23 @@ export default {
         mont: 'var(--font-montserrat)',
         sans: 'var(--font-hubotSans)',
       },
+	  keyframes: {
+        vibrate: {
+          "0%": { transform: "translate(-1px, 2px) rotate(0deg)" },
+          "10%": { transform: "translate(1px, -3px) rotate(1deg)" },
+          "20%": { transform: "translate(-2px, 1px) rotate(-1deg)" },
+          "30%": { transform: "translate(1px, 1px) rotate(0deg)" },
+          "40%": { transform: "translate(2px, -2px) rotate(-5deg)" },
+          "60%": { transform: "translate(-1px, -2px) rotate(1deg)" },
+          "70%": { transform: "transform: translate(0px, 2px) rotate(0deg)" },
+          "80%": { transform: "translate(-1px, 2px) rotate(1deg)" },
+          "90%": { transform: "translate(0px, -3px) rotate(2deg)" },
+          "100%": { transform: "translate(-3px, 1px) rotate(-2deg)" },
+        },
+      },
+      animation: {
+        vibrate: 'vibrate 3s infinite',
+      }
   	}
   },
   plugins: [require("tailwindcss-animate")],

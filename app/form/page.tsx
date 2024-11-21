@@ -27,6 +27,7 @@ import { Button } from '@/components/ui/button';
 import { Loader } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeSwitcher';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import SeatLayout from '@/components/seat/SeatLayout';
 
 export default function Home() {
   const [lastResult, formAction, isPending] = useActionState(
@@ -45,6 +46,7 @@ export default function Home() {
 
   return (
     <ScrollArea>
+      <SeatLayout />
       <div className="flex h-full w-screen flex-col items-center justify-center">
         <Card className="my-8 sm:my-20 sm:w-[600px]">
           <CardHeader>
