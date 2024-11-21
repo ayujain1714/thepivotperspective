@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning={true}>
       <body
         className={`${montserrat.variable} ${hubotSans.className} antialiased`}
       >

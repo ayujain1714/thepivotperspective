@@ -1,5 +1,18 @@
 import type { Config } from "tailwindcss";
 
+//@ts-ignore
+import { default as flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette'
+import svgToDataUri from 'mini-svg-data-uri'
+
+function addVariablesForColors({ addBase, theme }: any) {
+  let allColors = flattenColorPalette(theme('colors'))
+  let newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]))
+
+  addBase({
+    ':root': newVars
+  })
+}
+
 export default {
     darkMode: ["class"],
     content: [
@@ -72,11 +85,35 @@ export default {
           "90%": { transform: "translate(0px, -3px) rotate(2deg)" },
           "100%": { transform: "translate(-3px, 1px) rotate(-2deg)" },
         },
+        moveUp: {
+          '0%': { transform: 'translateY(5%)', opacity: '0' },
+          '100%': { transform: 'translateY(0%)', opacity: '1' }
+        },
+        appear: {
+          from: { opacity: '0' },
+          to: { opacity: '1' }
+        }
       },
       animation: {
-        vibrate: 'vibrate 3s infinite',
+        vibrate: 'vibrate 3s ease infinite',
+        moveUp: 'moveUp 1.4s ease forwards',
+        appear: 'appear 1s 0.2s forwards'
       }
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+	addVariablesForColors,
+    function ({ matchUtilities, theme, addUtilities }: any) {
+      matchUtilities(
+        {
+          'bg-grid': (value: any) => ({
+            backgroundImage: `url("${svgToDataUri(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
+            )}")`
+          })
+        },
+        { values: flattenColorPalette(theme('backgroundColor')), type: 'color' }
+      )
+    }
+  ],
 } satisfies Config;
