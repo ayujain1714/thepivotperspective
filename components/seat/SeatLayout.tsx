@@ -1,12 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { twMerge } from "tailwind-merge";
+
 
 type SelectedSeat = {
   partIndex: number;
   rowIndex: number;
   seatIndex: number;
 };
+
+interface Seat {
+  partIndex: number;
+  rowIndex: number;
+  seatIndex: number;
+  status: 'Available' | 'Pending' | 'Booked';
+}
 
 export default function SeatLayout() {
   const [selectedSeat, setSelectedSeat] = useState<SelectedSeat | null>(null);
@@ -15,16 +24,60 @@ export default function SeatLayout() {
     [15, 16, 18, 18, 18],
   ]);
 
+  const [bookedSeats, setBookedSeats] = useState<Seat[]>([]);
+
+  const fetchBookedSeats = async () => {
+    const response = await fetch('/api/get-booked-seats');
+    const data: Seat[] = await response.json();
+    setBookedSeats(data);
+  };
+
+  useEffect(() => {
+    fetchBookedSeats();
+  }, []);
+
   const handleSeatSelection = (
     partIndex: number,
     rowIndex: number,
     seatIndex: number,
   ) => {
-    setSelectedSeat({
-      partIndex,
-      rowIndex,
-      seatIndex,
-    });
+    const seatStatus = getSeatStatus(partIndex, rowIndex, seatIndex);
+
+    if (seatStatus === 'Available') {
+      setSelectedSeat({
+        partIndex,
+        rowIndex,
+        seatIndex,
+      });
+    }
+  };
+
+  const getSeatStatus = (
+    partIndex: number,
+    rowIndex: number,
+    seatIndex: number,
+  ): 'Available' | 'Pending' | 'Booked' => {
+    const bookedSeat = bookedSeats.find(
+      (seat) =>
+        seat.partIndex === partIndex &&
+        seat.rowIndex === rowIndex &&
+        seat.seatIndex === seatIndex,
+    );
+    return bookedSeat ? bookedSeat.status : 'Available';
+  };
+
+  const getSeatClass = (partIndex: number, rowIndex: number, seatIndex: number): string => {
+    const status = getSeatStatus(partIndex, rowIndex, seatIndex);
+
+    return twMerge(
+      status === 'Booked' ? 'bg-red-500' : '',
+      status === 'Pending' ? 'bg-yellow-400' : '',
+      selectedSeat?.partIndex === partIndex &&
+        selectedSeat?.rowIndex === rowIndex &&
+        selectedSeat?.seatIndex === seatIndex
+        ? 'border-2 border-blue-500'
+        : ''
+    );
   };
 
   const handleSubmit = () => {
@@ -71,14 +124,20 @@ export default function SeatLayout() {
                       onClick={() =>
                         handleSeatSelection(partIndex, rowIndex, seatIndex)
                       }
-                      className={`seat ${
-                        selectedSeat &&
-                        selectedSeat.partIndex === partIndex &&
-                        selectedSeat.rowIndex === rowIndex &&
-                        selectedSeat.seatIndex === seatIndex
-                          ? 'selected animate-vibrate h-[30px] w-[30px] cursor-pointer rounded-lg border border-[#4fffb391] bg-[#4fffb391] text-center text-[7px] font-bold leading-[30px] transition-all duration-300'
-                          : 'h-[30px] w-[30px] cursor-pointer rounded-lg border border-white bg-transparent text-center text-[7px] leading-[30px] transition-all duration-300'
-                      }`}
+
+                      className={`seat ${getSeatClass(
+                        partIndex,
+                        rowIndex,
+                        seatIndex
+                      )}`}
+                      // className={`seat ${
+                      //   selectedSeat &&
+                      //   selectedSeat.partIndex === partIndex &&
+                      //   selectedSeat.rowIndex === rowIndex &&
+                      //   selectedSeat.seatIndex === seatIndex
+                      //     ? 'selected h-[30px] w-[30px] animate-vibrate cursor-pointer rounded-lg border border-[#4fffb391] bg-[#4fffb391] text-center text-[7px] font-bold leading-[30px] transition-all duration-300'
+                      //     : 'h-[30px] w-[30px] cursor-pointer rounded-lg border border-white bg-transparent text-center text-[7px] leading-[30px] transition-all duration-300'
+                      // }`}
                     >
                       {partIndex == 0 ? 'L' : 'R'}-{rowIndex + 1}-
                       {seatIndex + 1}
@@ -95,4 +154,4 @@ export default function SeatLayout() {
       </div>
     </>
   );
-};
+}
