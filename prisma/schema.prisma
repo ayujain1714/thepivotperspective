@@ -10,14 +10,32 @@ datasource db {
 model Register {
   id           Int      @id @default(autoincrement())
   name         String?
-  enrollmentNo String   @unique
+  enrollmentNo String
   campus       Campus
   course       Course
   branch       Branch
   semester     Semester
   email        String
   phoneNumber  String
+  seat         Seat[]
   createdAt    DateTime @default(now())
+}
+
+model Seat {
+  id          Int       @id @default(autoincrement())
+  partIndex   Int
+  rowIndex    Int
+  seatIndex   Int
+  status      Status
+  registerId  Int       // Foreign key pointing to Register
+  register    Register  @relation(fields: [registerId], references: [id]) // Relation to Register
+  createdAt   DateTime  @default(now())
+}
+
+enum Status {
+  Available
+  Booked
+  Pending
 }
 
 enum Campus {

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Armchair, UsersRound } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-// import { Lights } from '@/components/Lights';
+import { Lights } from '@/components/Lights';
 import { Link as Scroll } from 'react-scroll/modules';
 
 import * as React from 'react';
@@ -68,7 +68,7 @@ export default function Hero() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 z-0 h-full w-full animate-appear opacity-0">
-            {/* <Lights /> */}
+            <Lights />
           </div>
         </div>
       </section>
