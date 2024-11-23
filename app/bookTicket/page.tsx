@@ -23,7 +23,7 @@ interface Seat {
 export default function Home() {
   const [selectedSeat, setSelectedSeat] = useState<SelectedSeat | null>(null);
   const [seatLayout] = useState<number[][]>([
-    [15, 16, 16, 18, 18, 18, 18, 18, 18, 18],
+    [16, 17, 17, 17, 17, 18, 18, 18, 18, 18],
     [17, 17, 18, 18, 18, 18, 18, 18, 15, 19],
   ]);
 
