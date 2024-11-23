@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import ThemeProvider from '@/components/ThemeProvider';
 
 const montserrat = localFont({
   src: './fonts/Montserrat.woff2',
@@ -9,15 +8,9 @@ const montserrat = localFont({
   weight: '100 1100',
 });
 
-const hubotSans = localFont({
-  src: './fonts/HubotSans.woff2',
-  variable: '--font-hubotSans',
-  weight: '100 1100',
-});
-
 export const metadata: Metadata = {
   title: 'The Pivot Perspective',
-  description: 'created by Team Sarasniyam',
+  description: 'Designed at KLIC',
 };
 
 export default function RootLayout({
@@ -26,19 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning={true}>
-      <body
-        className={`${montserrat.variable} ${hubotSans.className} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
+    <html lang="en" suppressHydrationWarning={true} className="dark">
+      <body className={`${montserrat.className} antialiased`}>{children}</body>
     </html>
   );
 }
